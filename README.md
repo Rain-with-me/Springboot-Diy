@@ -1,2 +1,2 @@
-# Springboot-
-用于快速搭建项目
+# 快速启动
+- 直接启动，访问http://localhost:8080/
