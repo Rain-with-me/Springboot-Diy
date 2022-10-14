@@ -2,6 +2,8 @@ spring:
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
+    view:
+      suffix: .html
   datasource:
     druid:
       url: jdbc:mysql://43.138.27.94:3306/invigilate?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&verifyServerCertificate=false&useSSL=false
