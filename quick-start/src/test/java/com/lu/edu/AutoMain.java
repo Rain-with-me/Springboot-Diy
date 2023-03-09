@@ -39,7 +39,7 @@ public class AutoMain {
         dsc.setUrl("jdbc:mysql://43.138.27.94:3306/invigilate?serverTimezone=UTC");
         dsc.setDriverName("com.mysql.cj.jdbc.Driver");
         dsc.setUsername("root");
-        dsc.setPassword("mall-123456");
+        dsc.setPassword("密码");
         dsc.setDbType(DbType.MYSQL);
         generator.setDataSource(dsc);
 
