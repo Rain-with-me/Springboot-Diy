@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Slf4j
-@ControllerAdvice
+@RestControllerAdvice
+@Order(value = Ordered.HIGHEST_PRECEDENCE)
 public class GloablExceptonHandler {
     // 指定出现什么异常执行这个方法
     @ExceptionHandler(Exception.class)
