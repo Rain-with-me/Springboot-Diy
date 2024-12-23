@@ -1,17 +1,38 @@
 package com.lu.edu.utils.exception;
 
+
+import com.lu.edu.utils.exception.DiyException;
 import com.lu.edu.utils.result.CommonResult;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.stream.Collectors;
 
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.BindException;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import javax.validation.ConstraintViolationException;
+import javax.validation.ValidationException;
+
+
+/**
+ * @Description: 注意是RestControllerAdvice
+ * @Author: 雨同我
+ * @DateTime: 2024/10/21 12:36
+ * @param: null:
+ * @return:
+ */
 
 @Slf4j
-@ControllerAdvice
+@RestControllerAdvice
+@Order(value = Ordered.HIGHEST_PRECEDENCE)
 public class GloablExceptonHandler {
     // 指定出现什么异常执行这个方法
     @ExceptionHandler(Exception.class)
@@ -51,44 +72,45 @@ public class GloablExceptonHandler {
      * @return:
      */
 
-//    @ExceptionHandler(value = { BindException.class, ValidationException.class, MethodArgumentNotValidException.class })
-//    public CommonResult handleValidatedException(Exception e) {
-//        CommonResult<String> resp = null;
-//
-//        if (e instanceof MethodArgumentNotValidException) {
-//            // BeanValidation exception
-//            // ex.getBindingResult().getAllErrors() 也是可以的
-//
-//            MethodArgumentNotValidException ex = (MethodArgumentNotValidException) e;
-//            resp = CommonResult.failed(HttpStatus.BAD_REQUEST.value(),
-//                    ex.getBindingResult().getFieldErrors().stream()
-//                            .map((t) -> {
-//                                return t.getField() + " " + t.getDefaultMessage();
-//                            })
-//                            .collect(Collectors.joining("; ")));
-//        } else if (e instanceof ConstraintViolationException) {
-//            // BeanValidation GET simple param
-//            ConstraintViolationException ex = (ConstraintViolationException) e;
-//            resp = CommonResult.failed(HttpStatus.BAD_REQUEST.value(),
-//                    ex.getConstraintViolations().stream()
-//                            .map(k -> {
-//                                return k.getRootBean() + " ---" + k.getPropertyPath() + ":" + k.getMessage();
-//                            })
-//                            .collect(Collectors.joining("; ")));
-//        } else if (e instanceof BindException) {
-//            // BeanValidation GET object param
-//            BindException ex = (BindException) e;
-//            resp = CommonResult.failed(HttpStatus.BAD_REQUEST.value(),
-//                    ex.getFieldErrors().stream()
-//                            .map((t) -> {
-//                                return t.getField() + " " + t.getDefaultMessage();
-//                            })
-//                            .collect(Collectors.joining("; ")));
-//        }
-//
-//        assert resp != null;
-//        log.error("自定义的--》参数校验异常:{}", resp);
-//        return resp;
-//    }
+    @ExceptionHandler(value = { BindException.class, ValidationException.class, MethodArgumentNotValidException.class })
+    public CommonResult handleValidatedException(Exception e) {
+        CommonResult<String> resp = null;
+
+        if (e instanceof MethodArgumentNotValidException) {
+            // BeanValidation exception
+            // ex.getBindingResult().getAllErrors() 也是可以的
+
+            MethodArgumentNotValidException ex = (MethodArgumentNotValidException) e;
+            resp = CommonResult.failed(HttpStatus.BAD_REQUEST.value(),
+                    ex.getBindingResult().getFieldErrors().stream()
+                            .map((t) -> {
+                                return t.getField() + " " + t.getDefaultMessage();
+                            })
+                            .collect(Collectors.joining("; ")));
+        } else if (e instanceof ConstraintViolationException) {
+            // BeanValidation GET simple param
+            ConstraintViolationException ex = (ConstraintViolationException) e;
+            resp = CommonResult.failed(HttpStatus.BAD_REQUEST.value(),
+                    ex.getConstraintViolations().stream()
+                            .map(k -> {
+                                return k.getRootBean() + " ---" + k.getPropertyPath() + ":" + k.getMessage();
+                            })
+                            .collect(Collectors.joining("; ")));
+        } else if (e instanceof BindException) {
+            // BeanValidation GET object param
+            BindException ex = (BindException) e;
+            resp = CommonResult.failed(HttpStatus.BAD_REQUEST.value(),
+                    ex.getFieldErrors().stream()
+                            .map((t) -> {
+                                return t.getField() + " " + t.getDefaultMessage();
+                            })
+                            .collect(Collectors.joining("; ")));
+        }
+
+        assert resp != null;
+        log.error("自定义的--》参数校验异常:{}", resp);
+        return CommonResult.failed("请求参数缺失");
+    }
+
 
 }
