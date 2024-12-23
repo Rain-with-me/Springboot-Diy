@@ -14,7 +14,7 @@ import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import java.util.ArrayList;
 
 /**
- * @description:
+ * @description:    mysql
  * @author: HaHa
  * @time: 2022/4/19 20:04
  */
@@ -78,7 +78,6 @@ public class AutoMain {
         tableFills.add(gmtCreate);
         tableFills.add(gmtModified);
         strategy.setTableFillList(tableFills);
-
 
 
 

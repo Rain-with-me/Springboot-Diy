@@ -1,14 +1,34 @@
 package com.lu.edu.utils.exception;
 
+
+import com.lu.edu.utils.exception.DiyException;
 import com.lu.edu.utils.result.CommonResult;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.stream.Collectors;
 
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.BindException;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import javax.validation.ConstraintViolationException;
+import javax.validation.ValidationException;
+
+
+/**
+ * @Description: 注意是RestControllerAdvice
+ * @Author: 雨同我
+ * @DateTime: 2024/10/21 12:36
+ * @param: null:
+ * @return:
+ */
 
 @Slf4j
 @RestControllerAdvice
@@ -89,7 +109,8 @@ public class GloablExceptonHandler {
 
         assert resp != null;
         log.error("自定义的--》参数校验异常:{}", resp);
-        return resp;
+        return CommonResult.failed("请求参数缺失");
     }
+
 
 }
