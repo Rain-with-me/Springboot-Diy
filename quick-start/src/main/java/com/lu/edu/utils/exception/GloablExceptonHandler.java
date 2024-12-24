@@ -48,7 +48,7 @@ public class GloablExceptonHandler {
         log.info("进入了全局异常处理");
         e.printStackTrace();
         log.error(e.getMsg());
-        return CommonResult.failed(e.getCode(), e.getMessage());
+        return CommonResult.failed(e.getCode(), e.getMsg());
     }
 
     // 参数校验异常 spring-data-validate
