@@ -49,3 +49,13 @@ server:
   port: 8080
 mybatis-plus:
   mapper-locations: classpath:com/lu/edu/mapper/xml/*.xml
+
+logging:
+  config: classpath:logback-plus.xml
+  level:
+    root: info
+#    com.mp.dao: trace
+#    com.spm.study: trace
+#    com.baomidou.example.mapper: info
+  pattern:
+    console: '%p%m%n'
